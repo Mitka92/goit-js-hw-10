@@ -1,5 +1,11 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+const inputElem = document.querySelector('#datetime-picker');
+const btnElem = document.querySelector('[data-start]');
+const daysElem = document.querySelector('[data-days]');
+const hoursElem = document.querySelector('[data-hours]');
+const minutesElem = document.querySelector('[data-minutes]');
+const secondsElem = document.querySelector('[data-seconds]');
 let userSelectedDate;
 const options = {
   enableTime: true,
@@ -7,41 +13,31 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    const validDate = selectedDates[0] - new Date() > 0;
+    userSelectedDate = selectedDates[0];
+    const validDate = userSelectedDate - new Date() > 0;
     if (!validDate) {
       window.alert('Please choose a date in the future');
       btnElem.disabled = true;
     } else {
-      btnElem.addEventListener(
-        'click',
-        e => {
-          btnElem.disabled = true;
-          inputElem.disabled = true;
-          userSelectedDate = setInterval(() => {
-            const ms = selectedDates[0] - new Date();
-            if (ms <= 1000) {
-              clearInterval(userSelectedDate);
-              inputElem.disabled = false;
-            }
-            markup(convertMs(ms));
-          });
-        },
-        1000
-      );
-
       btnElem.disabled = false;
     }
   },
 };
-const inputElem = document.querySelector('#datetime-picker');
-const btnElem = document.querySelector('[data-start]');
-const daysElem = document.querySelector('[data-days]');
-const hoursElem = document.querySelector('[data-hours]');
-const minutesElem = document.querySelector('[data-minutes]');
-const secondsElem = document.querySelector('[data-seconds]');
+
 btnElem.disabled = true;
 flatpickr(inputElem, options);
-
+btnElem.addEventListener('click', e => {
+  btnElem.disabled = true;
+  inputElem.disabled = true;
+  const intervalId = setInterval(() => {
+    const ms = userSelectedDate - new Date();
+    if (ms <= 1000) {
+      clearInterval(intervalId);
+      inputElem.disabled = false;
+    }
+    markup(convertMs(ms));
+  }, 1000);
+});
 function markup({ days, hours, minutes, seconds }) {
   updateTextContent(daysElem, days);
   updateTextContent(hoursElem, hours);
