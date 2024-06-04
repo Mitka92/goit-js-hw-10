@@ -1,6 +1,5 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-// import 'flatpickr/dist/themes/dark.css';
 let userSelectedDate;
 const options = {
   enableTime: true,
@@ -11,27 +10,26 @@ const options = {
     const validDate = selectedDates[0] - new Date() > 0;
     if (!validDate) {
       window.alert('Please choose a date in the future');
-      btnElem.setAttribute('disabled', 'true');
+      btnElem.disabled = true;
     } else {
       btnElem.addEventListener(
         'click',
         e => {
-          btnElem.setAttribute('disabled', 'true');
-          inputElem.setAttribute('disabled', 'true');
+          btnElem.disabled = true;
+          inputElem.disabled = true;
           userSelectedDate = setInterval(() => {
             const ms = selectedDates[0] - new Date();
-            markup(convertMs(ms));
-            setTimeout(() => {
+            if (ms <= 1000) {
               clearInterval(userSelectedDate);
-              inputElem.removeAttribute('disabled');
-              //   secondsElem.textContent = '0';
-            }, ms - 1000);
+              inputElem.disabled = false;
+            }
+            markup(convertMs(ms));
           });
         },
         1000
       );
 
-      btnElem.removeAttribute('disabled');
+      btnElem.disabled = false;
     }
   },
 };
@@ -41,26 +39,20 @@ const daysElem = document.querySelector('[data-days]');
 const hoursElem = document.querySelector('[data-hours]');
 const minutesElem = document.querySelector('[data-minutes]');
 const secondsElem = document.querySelector('[data-seconds]');
-btnElem.setAttribute('disabled', 'true');
+btnElem.disabled = true;
 flatpickr(inputElem, options);
 
 function markup({ days, hours, minutes, seconds }) {
-  //   if (daysElem.textContent !== days) {
-  //     daysElem.textContent = days;
-  //   }
-  //   if (hoursElem.textContent !== hours) {
-  //     hoursElem.textContent = hours;
-  //   }
-  //   if (minutesElem.textContent !== minutes) {
-  //     minutesElem.textContent = minutes;
-  //   }
-  //   if (secondsElem.textContent !== seconds) {
-  //     secondsElem.textContent = seconds;
-  //   }
-  daysElem.textContent = days.toString().padStart(2, 0);
-  hoursElem.textContent = hours.toString().padStart(2, 0);
-  minutesElem.textContent = minutes.toString().padStart(2, 0);
-  secondsElem.textContent = seconds.toString().padStart(2, 0);
+  updateTextContent(daysElem, days);
+  updateTextContent(hoursElem, hours);
+  updateTextContent(minutesElem, minutes);
+  updateTextContent(secondsElem, seconds);
+}
+function updateTextContent(value, newValue) {
+  const resultValue = newValue.toString().padStart(2, '0');
+  if (value.textContent !== resultValue) {
+    value.textContent = resultValue;
+  }
 }
 function convertMs(ms) {
   // Number of milliseconds per unit of time
