@@ -3,6 +3,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import '../css/timer.css';
+import iconUrl from '../img/bi_x-octagon.png';
 const inputElem = document.querySelector('#datetime-picker');
 const btnElem = document.querySelector('[data-start]');
 const daysElem = document.querySelector('[data-days]');
@@ -31,7 +32,8 @@ const options = {
         messageSize: '16',
         messageLineHeight: '24',
         position: 'topRight',
-        iconUrl: '../img/bi_x-octagon.png',
+        iconUrl,
+        // iconUrl: '../img/bi_x-octagon.png',
         progressBarColor: ' #B51B1B',
       });
       btnElem.disabled = true;
