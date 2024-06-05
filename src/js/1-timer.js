@@ -1,11 +1,15 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+import '../css/timer.css';
 const inputElem = document.querySelector('#datetime-picker');
 const btnElem = document.querySelector('[data-start]');
 const daysElem = document.querySelector('[data-days]');
 const hoursElem = document.querySelector('[data-hours]');
 const minutesElem = document.querySelector('[data-minutes]');
 const secondsElem = document.querySelector('[data-seconds]');
+
 let userSelectedDate;
 const options = {
   enableTime: true,
@@ -16,24 +20,49 @@ const options = {
     userSelectedDate = selectedDates[0];
     const validDate = userSelectedDate - new Date() > 0;
     if (!validDate) {
-      window.alert('Please choose a date in the future');
+      iziToast.show({
+        title: 'Error',
+        message: 'Please choose a date in the future',
+        titleColor: '#FFFFFF',
+        backgroundColor: '#EF4040',
+        titleSize: '16',
+        titleLineHeight: '24',
+        messageColor: '#FFFFFF',
+        messageSize: '16',
+        messageLineHeight: '24',
+        position: 'topRight',
+        iconUrl: '../img/bi_x-octagon.png',
+        progressBarColor: ' #B51B1B',
+      });
       btnElem.disabled = true;
+      btnElem.classList.remove('button-normal');
+      inputElem.classList.remove('input-active');
     } else {
       btnElem.disabled = false;
+      btnElem.classList.add('button-normal');
+      inputElem.classList.add('input-active');
     }
   },
 };
 
 btnElem.disabled = true;
+btnElem.classList.add('button-disabled');
+inputElem.classList.add('input-normal');
 flatpickr(inputElem, options);
 btnElem.addEventListener('click', e => {
   btnElem.disabled = true;
+  btnElem.classList.remove('button-normal');
   inputElem.disabled = true;
+  inputElem.classList.add('input-disabled');
+  inputElem.classList.remove('input-active');
+  inputElem.classList.remove('input-normal');
   const intervalId = setInterval(() => {
     const ms = userSelectedDate - new Date();
     if (ms <= 1000) {
       clearInterval(intervalId);
       inputElem.disabled = false;
+      inputElem.classList.remove('input-disabled');
+      inputElem.classList.add('input-normal');
     }
     markup(convertMs(ms));
   }, 1000);

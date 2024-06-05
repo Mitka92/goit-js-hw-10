@@ -1,16 +1,103 @@
 body {
   display: flex;
-  justify-content: center;
+  align-content: space-around;
   flex-wrap: wrap;
   flex-direction: column;
 }
 .input {
   margin: 0 auto;
+  width: 355px;
+  display: flex;
+  justify-content: space-between;
+}
+#datetime-picker {
+  outline: none;
+  height: 40px;
+  width: 272px;
+  border-radius: 4px;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.04em;
+  padding-left: 16px;
+  box-sizing: border-box;
+}
+.input-normal {
+  color: #2e2f42;
+  border: 1px solid #808080;
+}
+.input-active {
+  color: black;
+  border: 1px solid #4e75ff;
+}
+.input-disabled {
+  color: #808080;
+  border: 1px solid #808080;
+}
+.input-normal:hover,
+.input-active:hover {
+  border: 1px solid #000000;
+  color: #2e2f42;
 }
 .timer {
   font-size: 24px;
   padding-top: 20px;
   text-align: center;
-  width: 600px;
+  width: 346px;
+  /* height: 72px; */
   margin: 0 auto;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  /* box-sizing: border-box; */
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 72px;
+  box-sizing: border-box;
+}
+.value {
+  font-family: Montserrat;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 48px;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+}
+.label {
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #2e2f42;
+}
+.button-disabled {
+  box-sizing: border-box;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.04em;
+  width: 75px;
+  height: 40px;
+  padding: 8px 16px 8px 16px;
+  border-radius: 8px;
+  background-color: #cfcfcf;
+  color: #989898;
+  border: none;
+}
+.button-normal {
+  background-color: #4e75ff;
+  color: #ffffff;
+  transition: background-color 500ms;
+}
+.button-normal:hover {
+  background-color: #6c8cff;
+}
+.iziToast > .iziToast-close {
+  background: url(../img/close.png) no-repeat 50% 50%;
+  background-size: 12px;
 }
