@@ -1,22 +1,28 @@
+// Імпорт бібліотек і стилів
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import '../css/timer.css';
 import iconUrl from '../img/bi_x-octagon.png';
+// Збереження до змінних посилань на елементи DOM
 const inputElem = document.querySelector('#datetime-picker');
 const btnElem = document.querySelector('[data-start]');
 const daysElem = document.querySelector('[data-days]');
 const hoursElem = document.querySelector('[data-hours]');
 const minutesElem = document.querySelector('[data-minutes]');
 const secondsElem = document.querySelector('[data-seconds]');
-
+// Оголошено глобальну змінну для зберігання вибраної дати
 let userSelectedDate;
+// Об'єкт options для flatpickr
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
+  onOpen() {
+    inputElem.classList.add('input-active');
+  },
   onClose(selectedDates) {
     userSelectedDate = selectedDates[0];
     const validDate = userSelectedDate - new Date() > 0;
@@ -33,7 +39,6 @@ const options = {
         messageLineHeight: '24',
         position: 'topRight',
         iconUrl,
-        // iconUrl: '../img/bi_x-octagon.png',
         progressBarColor: ' #B51B1B',
       });
       btnElem.disabled = true;
@@ -42,21 +47,22 @@ const options = {
     } else {
       btnElem.disabled = false;
       btnElem.classList.add('button-normal');
-      inputElem.classList.add('input-active');
+      inputElem.classList.remove('input-active');
     }
   },
 };
 
-btnElem.disabled = true;
+btnElem.disabled = true; //Кнопка не активна
+// додаємо класи до DOM елементів
 btnElem.classList.add('button-disabled');
 inputElem.classList.add('input-normal');
-flatpickr(inputElem, options);
-btnElem.addEventListener('click', e => {
+flatpickr(inputElem, options); //Виклик flatpickr
+//Додаємо прослуховувач до кнопки
+btnElem.addEventListener('click', () => {
   btnElem.disabled = true;
   btnElem.classList.remove('button-normal');
   inputElem.disabled = true;
   inputElem.classList.add('input-disabled');
-  inputElem.classList.remove('input-active');
   inputElem.classList.remove('input-normal');
   const intervalId = setInterval(() => {
     const ms = userSelectedDate - new Date();
@@ -69,6 +75,8 @@ btnElem.addEventListener('click', e => {
     markup(convertMs(ms));
   }, 1000);
 });
+
+//Допоміжні функції
 function markup({ days, hours, minutes, seconds }) {
   updateTextContent(daysElem, days);
   updateTextContent(hoursElem, hours);
