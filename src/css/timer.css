@@ -1,8 +1,14 @@
 body {
-  display: flex;
+  /* display: flex; */
   align-content: space-around;
   flex-wrap: wrap;
   flex-direction: column;
+}
+.link-home {
+  color: #2e2f42;
+}
+.link-home:hover {
+  color: #4e75ff;
 }
 .input {
   margin: 0 auto;
