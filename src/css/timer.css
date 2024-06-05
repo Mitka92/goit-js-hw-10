@@ -33,16 +33,15 @@ body {
   color: #2e2f42;
   border: 1px solid #808080;
 }
-.input-active {
+/* .input-active {
   color: black;
   border: 1px solid #4e75ff;
-}
+} */
 .input-disabled {
   color: #808080;
   border: 1px solid #808080;
 }
-.input-normal:hover,
-.input-active:hover {
+.input-normal:hover {
   border: 1px solid #000000;
   color: #2e2f42;
 }
@@ -171,5 +170,9 @@ span.flatpickr-weekday {
 }
 .flatpickr-day:hover {
   background-color: #c1c1c1;
+}
+.flatpickr-input.active {
+  color: black;
+  border: 1px solid #4e75ff;
 }
 /*  */

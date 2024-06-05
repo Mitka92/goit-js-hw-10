@@ -5,6 +5,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import '../css/timer.css';
 import iconUrl from '../img/bi_x-octagon.png';
+
 // Збереження до змінних посилань на елементи DOM
 const inputElem = document.querySelector('#datetime-picker');
 const btnElem = document.querySelector('[data-start]');
@@ -12,17 +13,16 @@ const daysElem = document.querySelector('[data-days]');
 const hoursElem = document.querySelector('[data-hours]');
 const minutesElem = document.querySelector('[data-minutes]');
 const secondsElem = document.querySelector('[data-seconds]');
+
 // Оголошено глобальну змінну для зберігання вибраної дати
 let userSelectedDate;
+
 // Об'єкт options для flatpickr
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onOpen() {
-    inputElem.classList.add('input-active');
-  },
   onClose(selectedDates) {
     userSelectedDate = selectedDates[0];
     const validDate = userSelectedDate - new Date() > 0;
@@ -43,20 +43,21 @@ const options = {
       });
       btnElem.disabled = true;
       btnElem.classList.remove('button-normal');
-      inputElem.classList.remove('input-active');
     } else {
       btnElem.disabled = false;
       btnElem.classList.add('button-normal');
-      inputElem.classList.remove('input-active');
     }
   },
 };
 
 btnElem.disabled = true; //Кнопка не активна
+
 // додаємо класи до DOM елементів
 btnElem.classList.add('button-disabled');
 inputElem.classList.add('input-normal');
+
 flatpickr(inputElem, options); //Виклик flatpickr
+
 //Додаємо прослуховувач до кнопки
 btnElem.addEventListener('click', () => {
   btnElem.disabled = true;
@@ -83,12 +84,14 @@ function markup({ days, hours, minutes, seconds }) {
   updateTextContent(minutesElem, minutes);
   updateTextContent(secondsElem, seconds);
 }
+
 function updateTextContent(value, newValue) {
   const resultValue = newValue.toString().padStart(2, '0');
   if (value.textContent !== resultValue) {
     value.textContent = resultValue;
   }
 }
+
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
