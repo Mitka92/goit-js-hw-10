@@ -6,7 +6,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import '../css/timer.css';
 
-// Збереження до змінних посилань на елементи DOM
+// Збереження до об'єкту посилань на елементи DOM
 const refs = {
   inputElem: document.querySelector('#datetime-picker'),
   btnElem: document.querySelector('[data-start]'),
