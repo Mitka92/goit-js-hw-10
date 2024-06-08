@@ -20,8 +20,22 @@ const refs = {
 let userSelectedDate;
 let timerIntervalId;
 let ms;
-
-// Об'єкт options для flatpickr
+// Об'єкт налаштувань для iziToast
+const iziToastSet = {
+  title: 'Error',
+  message: 'Please choose a date in the future',
+  titleColor: '#FFFFFF',
+  backgroundColor: '#EF4040',
+  titleSize: '16',
+  titleLineHeight: '24',
+  messageColor: '#FFFFFF',
+  messageSize: '16',
+  messageLineHeight: '24',
+  position: 'topRight',
+  iconUrl,
+  progressBarColor: ' #B51B1B',
+};
+// Об'єкт налаштувань для flatpickr
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -31,20 +45,7 @@ const options = {
     userSelectedDate = selectedDates[0];
     const validDate = userSelectedDate - Date.now() > 0;
     if (!validDate) {
-      iziToast.show({
-        title: 'Error',
-        message: 'Please choose a date in the future',
-        titleColor: '#FFFFFF',
-        backgroundColor: '#EF4040',
-        titleSize: '16',
-        titleLineHeight: '24',
-        messageColor: '#FFFFFF',
-        messageSize: '16',
-        messageLineHeight: '24',
-        position: 'topRight',
-        iconUrl,
-        progressBarColor: ' #B51B1B',
-      });
+      iziToast.show(iziToastSet);
       refs.btnElem.disabled = true;
       refs.btnElem.classList.remove('button-normal');
     } else {
