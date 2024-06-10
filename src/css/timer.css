@@ -7,9 +7,7 @@ body {
 .link-home {
   color: #2e2f42;
 }
-.link-home:hover {
-  color: #4e75ff;
-}
+
 .input {
   margin: 0 auto;
   width: 355px;
@@ -33,10 +31,7 @@ body {
   color: #2e2f42;
   border: 1px solid #808080;
 }
-/* .input-active {
-  color: black;
-  border: 1px solid #4e75ff;
-} */
+
 .input-disabled {
   color: #808080;
   border: 1px solid #808080;
