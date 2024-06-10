@@ -20,6 +20,7 @@ const refs = {
 let userSelectedDate;
 let timerIntervalId;
 let ms;
+let validDate;
 // Об'єкт налаштувань для iziToast
 const iziToastSet = {
   title: 'Error',
@@ -43,15 +44,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     userSelectedDate = selectedDates[0];
-    const validDate = userSelectedDate - Date.now() > 0;
-    if (!validDate) {
-      iziToast.show(iziToastSet);
-      refs.btnElem.disabled = true;
-      refs.btnElem.classList.remove('button-normal');
-    } else {
-      refs.btnElem.disabled = false;
-      refs.btnElem.classList.add('button-normal');
-    }
+    dayValidator(userSelectedDate);
   },
 };
 
@@ -69,32 +62,53 @@ refs.btnElem.addEventListener('click', () => {
 });
 //Запуск таймера
 function startTimer(callbackForStop) {
-  refs.btnElem.disabled = true;
-  refs.btnElem.classList.remove('button-normal');
-  refs.inputElem.disabled = true;
-  refs.inputElem.classList.add('input-disabled');
-  refs.inputElem.classList.remove('input-normal');
-  timerIntervalId = setInterval(() => {
-    ms = userSelectedDate - Date.now();
-    markup(convertMs(ms));
-    callbackForStop();
-  }, 1000);
+  if (dayValidator(userSelectedDate)) {
+    refs.btnElem.disabled = true;
+    refs.btnElem.classList.remove('button-normal');
+    refs.inputElem.disabled = true;
+    refs.inputElem.classList.add('input-disabled');
+    refs.inputElem.classList.remove('input-normal');
+    timerIntervalId = setInterval(() => {
+      ms = userSelectedDate - Date.now();
+      markup(convertMs(ms));
+      callbackForStop();
+    }, 1000);
+  }
 }
 //Зупинка таймера
 function stopTimer() {
-  setTimeout(() => {
+  if (ms <= 1000) {
     clearInterval(timerIntervalId);
     refs.inputElem.disabled = false;
     refs.inputElem.classList.remove('input-disabled');
     refs.inputElem.classList.add('input-normal');
-  }, ms);
+  }
+  // setTimeout(() => {
+  //   clearInterval(timerIntervalId);
+  //   refs.inputElem.disabled = false;
+  //   refs.inputElem.classList.remove('input-disabled');
+  //   refs.inputElem.classList.add('input-normal');
+  // }, ms);
 }
 //Допоміжні функції
+
 function markup({ days, hours, minutes, seconds }) {
   updateTextContent(refs.daysElem, days);
   updateTextContent(refs.hoursElem, hours);
   updateTextContent(refs.minutesElem, minutes);
   updateTextContent(refs.secondsElem, seconds);
+}
+function dayValidator(userDate) {
+  validDate = userDate - Date.now() > 0;
+  if (!validDate) {
+    iziToast.show(iziToastSet);
+    refs.btnElem.disabled = true;
+    refs.btnElem.classList.remove('button-normal');
+  } else {
+    refs.btnElem.disabled = false;
+    refs.btnElem.classList.add('button-normal');
+  }
+  return validDate;
 }
 
 function updateTextContent(elem, value) {
